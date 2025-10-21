@@ -20,12 +20,12 @@ Airflow의 Multiple Executors 기능을 사용하여, 메인 서버(`CeleryExecu
 
 
 ```
-       [ A. 메인 Airflow 클러스터 (Docker Network) ]         [ B. 원격 엣지 사이트 (B 서버) ]
+                    [ 메인 서버 ]                                [ 별도 서버 (Edge worker) ]
       +-------------------------------------------+         +----------------------------+
       |  [ Webserver (UI + API) ]                 |         |                            |
       |    - AIRFLOW__EDGE__API_ENABLED=true      |         |                            |
       |                                           |         |  [ Airflow Edge Worker ]   |
-      |  [ Scheduler ]                            |         |    - (Container: 8bff...)  |
+      |  [ Scheduler ]                            |         |    - (name: 8bff...)       |
       |  [ DAG Processor ]                        |         |    - --queue edge_queue    |
       |                                           |         |                            |
       |  [ Celery Workers ]                       |         |                            |
@@ -34,13 +34,13 @@ Airflow의 Multiple Executors 기능을 사용하여, 메인 서버(`CeleryExecu
       |  [ DB (MySQL) ]  [ Broker (Redis) ]       |         |                            |
       +-------------------------------------------+         +----------------------------+
                |        ^         |                                  |
-(4. 작업 요청).  |        | (7. task 결과 전송)                          | (6. NAS에 파일 쓰기)
+(4. 작업 요청).  |        | (7. task 결과 전송)                           | (6. NAS에 파일 쓰기)
                |        |         |                                  |
-               v        +---------+----------------------------------+
-               |
+               |        +---------+----------------------------------+
+               v
       +--------------------------------------------------------------------------+
-      |                           [ 공용 NAS (Shared Volume) ]                     |
-      |                           - (Docker Volume: ./filestorage)               |
+      |                           [ 공용 NAS (Shared Volume) ]                    |
+      |                           - ./filestorage                                |
       +--------------------------------------------------------------------------+
                |
 (8. 파일 읽기)   |
