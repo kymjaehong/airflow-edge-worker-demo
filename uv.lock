@@ -38,7 +38,7 @@ wheels = [
 [[package]]
 name = "airflow-edge-executor"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "apache-airflow" },
     { name = "apache-airflow-providers-celery" },

@@ -10,3 +10,15 @@ dependencies = [
     "apache-airflow-providers-edge3>=1.3.1",
     "pymysql>=1.1.2",
 ]
+
+# setup.py 대체
+# uv build 호출
+# 성공 시, 
+# Successfully built dist/airflow_edge_executor-0.1.0.tar.gz
+# Successfully built dist/airflow_edge_executor-0.1.0-py3-none-any.whl
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+exclude = ["base", "filestorage", "logs", "dags"]
